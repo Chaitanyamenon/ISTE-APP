@@ -326,7 +326,7 @@ class TeamPage extends StatelessWidget {
 
     return Center(
       child: Text(
-        'See the ISTE members here!',
+        'Team Details here!',
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
@@ -342,16 +342,100 @@ class MoreOptionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Center(
-      child: Text(
-        'More options!',
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: isDarkMode ? Colors.white : Colors.black,
+    return ListView(
+      children: [
+        ListTile(
+          leading: Icon(
+            Icons.person,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+          title: Text(
+            'Profile',
+            style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfilePage(isDarkMode: isDarkMode),
+              ),
+            );
+          },
+        ),
+        Divider(color: isDarkMode ? Colors.white : Colors.black),
+        ListTile(
+          leading: Icon(
+            Icons.lock,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+          title: Text(
+            'Change Password',
+            style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ChangePasswordPage(isDarkMode: isDarkMode),
+              ),
+            );
+          },
+        ),
+        Divider(color: isDarkMode ? Colors.white : Colors.black),
+      ],
+    );
+  }
+}
+
+class ProfilePage extends StatelessWidget {
+  final bool isDarkMode;
+
+  const ProfilePage({required this.isDarkMode});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Profile Page',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Text(
+          'Profile Page can include: ISTE ID,Club Details,Projects,personal information etc..',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
 }
+
+class ChangePasswordPage extends StatelessWidget {
+  final bool isDarkMode;
+
+  const ChangePasswordPage({required this.isDarkMode});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Change Password',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Text(
+          'Here you can change your password!',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
 
