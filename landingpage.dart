@@ -337,105 +337,316 @@ class TeamPage extends StatelessWidget {
   }
 }
 
+
 class MoreOptionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('More Options'),
+      ),
+      body: ListView(
+        children: [
+          // Profile Option
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text('Profile'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfilePage(),
+                ),
+              );
+            },
+          ),
+          Divider(),
 
-    return ListView(
-      children: [
-        ListTile(
-          leading: Icon(
-            Icons.person,
-            color: isDarkMode ? Colors.white : Colors.black,
+          // Password Change Option
+          ListTile(
+            leading: Icon(Icons.lock),
+            title: Text('Change Password'),
+            onTap: () {
+              // Navigate to Password Change page
+              // (Create the PasswordChangePage widget for handling password change)
+            },
           ),
-          title: Text(
-            'Profile',
-            style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
-          ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProfilePage(isDarkMode: isDarkMode),
-              ),
-            );
-          },
-        ),
-        Divider(color: isDarkMode ? Colors.white : Colors.black),
-        ListTile(
-          leading: Icon(
-            Icons.lock,
-            color: isDarkMode ? Colors.white : Colors.black,
-          ),
-          title: Text(
-            'Change Password',
-            style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
-          ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    ChangePasswordPage(isDarkMode: isDarkMode),
-              ),
-            );
-          },
-        ),
-        Divider(color: isDarkMode ? Colors.white : Colors.black),
-      ],
+          Divider(),
+        ],
+      ),
     );
   }
 }
 
 class ProfilePage extends StatelessWidget {
-  final bool isDarkMode;
-
-  const ProfilePage({required this.isDarkMode});
-
   @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
+    // Check the theme mode
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    // Get the height of the screen minus AppBar height
+    double screenHeight = MediaQuery.of(context).size.height;
+    double appBarHeight = AppBar().preferredSize.height;
+    double availableHeight = screenHeight - appBarHeight;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Profile Page',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.deepPurple,
+        title: Text('Profile'),
+        centerTitle: true,
+        backgroundColor: isDarkMode ? Colors.black : Colors.white,
+        foregroundColor: isDarkMode ? Colors.white : Colors.pink,
       ),
-      body: Center(
-        child: Text(
-          'Profile Page can include: ISTE ID,Club Details,Projects,personal information etc..',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+      body: Column(
+        children: [
+          // Top side: 30% - Avatar and Info (Adjusted for available height)
+          Container(
+            height: availableHeight * 0.3, 
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: isDarkMode
+                    ? [Colors.purple, Colors.black]
+                    : [Colors.blue, Colors.white],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+            ),
+            child: Row(
+              children: [
+                // Avatar
+                CircleAvatar(
+                  radius: 50,
+                  backgroundColor: isDarkMode ? Colors.black : Colors.white,
+                  child: Icon(
+                    Icons.person,
+                    size: 50,
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+                SizedBox(width: 16), 
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Name
+                    Text(
+                      'Chaitanya Menon',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    SizedBox(height: 4), 
+                    Text(
+                      'B Tech,2nd year',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    // SIG
+                    Text(
+                      'ISTE Crypt',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    // Position
+                    Text(
+                      'Crypt SIG Head',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          // Bottom side: 70% - Personal and Club Info with Tabs
+          Expanded(
+            child: DefaultTabController(
+              length: 2,
+              child: Column(
+                children: [
+          
+                  TabBar(
+                    labelColor: isDarkMode ? Colors.white : Colors.black,
+                    indicatorColor: isDarkMode ? Colors.black : Colors.white,
+                    tabs: [
+                      Tab(text: 'Personal'),
+                      Tab(text: 'Club'),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: ListView(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  'Father\'s Name',
+                                  style: TextStyle(
+                                    color: isDarkMode ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'S Krishna Das',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  'Blood Group',
+                                  style: TextStyle(
+                                    color: isDarkMode ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'AB+',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  'Date of Birth',
+                                  style: TextStyle(
+                                    color: isDarkMode ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '09-02-2005',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  'Phone Number',
+                                  style: TextStyle(
+                                    color: isDarkMode ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '8714727341',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  'Email',
+                                  style: TextStyle(
+                                    color: isDarkMode ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'chaitanya@nitk.edu.in',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Club Info
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: ListView(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  'SIG Name',
+                                  style: TextStyle(
+                                    color: isDarkMode ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'Crypt',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  'Year Joined',
+                                  style: TextStyle(
+                                    color: isDarkMode ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '2024',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  'Position',
+                                  style: TextStyle(
+                                    color: isDarkMode ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'SIG Head',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  'Number of Projects',
+                                  style: TextStyle(
+                                    color: isDarkMode ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '2',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white70 : Colors.black54,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-
-class ChangePasswordPage extends StatelessWidget {
-  final bool isDarkMode;
-
-  const ChangePasswordPage({required this.isDarkMode});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Change Password',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: Center(
-        child: Text(
-          'Here you can change your password!',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-}
-
-
