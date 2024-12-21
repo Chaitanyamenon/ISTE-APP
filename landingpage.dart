@@ -47,7 +47,7 @@ class _ISTEAppState extends State<ISTEApp> {
         ),
         leading: IconButton(
           icon: Icon(
-            Icons.person,
+            Icons.calendar_today,
             color: isDarkMode ? Colors.white : Colors.black,
           ),
           onPressed: () {
